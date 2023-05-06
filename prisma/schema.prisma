@@ -11,8 +11,17 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  email    String @unique
-  name     String
-  password String
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  email        String   @unique
+  name         String
+  password     String
+  condominiums String[]
+}
+
+model Condominium {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  city         String
+  address      String
+  participants String[]
 }

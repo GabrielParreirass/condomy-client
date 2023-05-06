@@ -1,11 +1,13 @@
 import { FormEvent, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { data: session } = useSession();
+
+  const { push } = useRouter();
 
   const handleLogin = (e: FormEvent) => {
     e.preventDefault();
@@ -13,20 +15,17 @@ export default function Home() {
     signIn("credentials", {
       email: email,
       password: password,
+      redirect: false,
     }).then((res) => {
-      console.log(res)
+      console.log(res);
+      if (res!.ok === false) {
+        window.alert("Dados incorresotos");
+      }
     });
   };
 
   if (session) {
-
-    console.log(session)
-
-    return (
-      <>
-        <h1>LOGADO! {session.user?.name}</h1>
-      </>
-    );
+    push("/home");
   }
 
   return (
@@ -74,7 +73,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-red-700 w-1/1 h-96  default-clip flex justify-center items-center  lg:clip-your-needful-style lg:w-3/5 lg:h-screen">
+        <div className="bg-violet-800 w-1/1 h-96  default-clip flex justify-center items-center  lg:clip-your-needful-style lg:w-3/5 lg:h-screen">
           <div className="flex flex-col">
             <h1 className="font-bold text-5xl text-white">CondoMy,</h1>
             <p className="mt-3 text-lg text-white text-center">
